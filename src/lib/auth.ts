@@ -42,6 +42,14 @@ export const authOptions: NextAuthOptions = {
 		async jwt({ token, user, account }) {
 			if (account?.provider === 'credentials') {
 				const dbUser = await db.user.findFirst({
+					include: {
+						role: {
+							select: {
+								id: true,
+								name: true,
+							},
+						},
+					},
 					where: { email: token.email! },
 				});
 
@@ -56,7 +64,7 @@ export const authOptions: NextAuthOptions = {
 				token.email = dbUser.email;
 				token.name = dbUser.name;
 				token.picture = dbUser.image;
-				token.role = dbUser.role;
+				token.role = dbUser.role.id;
 			}
 
 			return token;
