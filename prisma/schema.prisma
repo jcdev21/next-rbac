@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+  roleId String @unique
+  name String
+  email String @unique
+  password String
+  image String?
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Role {
+  id String @id @default(cuid())
+  name String
+
+  user User?
+  access PermissionAccess[]
+
+  @@map("roles")
+}
+
+model Menu {
+  id String @id @default(cuid())
+  title String
+  href String?
+  submenu String?
+
+  access PermissionAccess[]
+
+  @@map("menus")
+}
+
+model PermissionAccess {
+  id String @id @default(cuid())
+  roleId String
+  menuId String
+  create Boolean @default(false)
+  update Boolean @default(false)
+  delete Boolean @default(false)
+  view Boolean @default(false)
+  approve Boolean @default(false)
+
+  role Role @relation(fields: [roleId], references: [id])
+  menu Menu @relation(fields: [menuId], references: [id])
+
+  @@map("accesses")
+}
