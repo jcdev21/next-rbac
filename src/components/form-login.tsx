@@ -24,7 +24,6 @@ export default function FormLogin() {
 		if (!res?.error) {
 			router.push('/');
 		} else {
-			console.log('ERROR');
 			console.log(res);
 		}
 	}

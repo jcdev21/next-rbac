@@ -45,7 +45,6 @@ export const authOptions: NextAuthOptions = {
 					include: {
 						role: {
 							select: {
-								id: true,
 								name: true,
 							},
 						},
@@ -64,7 +63,7 @@ export const authOptions: NextAuthOptions = {
 				token.email = dbUser.email;
 				token.name = dbUser.name;
 				token.picture = dbUser.image;
-				token.role = dbUser.role.id;
+				token.role = dbUser.role.name;
 			}
 
 			return token;
