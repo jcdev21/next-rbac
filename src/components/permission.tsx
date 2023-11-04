@@ -1,15 +1,18 @@
 'use client';
 
-import { Permissions } from '@/types';
+import { Access, Permissions } from '@/types';
 import React, { createContext, useContext, useState } from 'react';
 
 type PermissionContextType = {
 	setPermissions: (params: Permissions[]) => void;
+	menuSelected: string;
 	setMenuSelected: (params: string) => void;
+	isAuthorized?: (params: keyof Access) => boolean;
 };
 
 const PermissionContext = createContext<PermissionContextType>({
 	setPermissions: (params: Permissions[]) => {},
+	menuSelected: '',
 	setMenuSelected: (params: string) => {},
 });
 
@@ -22,17 +25,30 @@ export default function PermissionProvider({
 	const [menuSelected, _setMenuSelected] = useState<string>('');
 
 	function setPermissions(permissions: Permissions[]) {
-		console.log(permissions);
 		_setPermissions(permissions);
 	}
 
 	function setMenuSelected(menuId: string) {
-		console.log(menuId);
 		_setMenuSelected(menuId);
 	}
 
+	function isAuthorized(access: keyof Access): boolean {
+		const permissionSelected = permissions.find(
+			(permission) => permission.menuId === menuSelected
+		);
+
+		return permissionSelected?.access[access] as boolean;
+	}
+
 	return (
-		<PermissionContext.Provider value={{ setPermissions, setMenuSelected }}>
+		<PermissionContext.Provider
+			value={{
+				menuSelected,
+				setPermissions,
+				setMenuSelected,
+				isAuthorized,
+			}}
+		>
 			{children}
 		</PermissionContext.Provider>
 	);
