@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@/lib/db';
 import { compare } from 'bcrypt';
+import { cookies } from 'next/headers';
 
 export const authOptions: NextAuthOptions = {
 	session: {
@@ -51,6 +52,18 @@ export const authOptions: NextAuthOptions = {
 					},
 					where: { email: token.email! },
 				});
+
+				const menu = await db.menu.findMany({
+					where: {
+						permission: {
+							some: {
+								roleName: dbUser?.role.name,
+							},
+						},
+					},
+				});
+
+				cookies().set('menu', JSON.stringify(menu));
 
 				if (!dbUser) {
 					if (user) {

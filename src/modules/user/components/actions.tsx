@@ -10,7 +10,7 @@ export default function Actions() {
 	}
 
 	return (
-		<div className="flex gap-2 bg-sky-200">
+		<div className="flex gap-2">
 			{isAuthorized!('create') ? (
 				<button
 					className="py-1 px-2 rounded-lg shadow bg-green-300"
