@@ -2,13 +2,15 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function FormLogin() {
 	const router = useRouter();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		setIsLoading(true);
 		const target = e.target as typeof e.target & {
 			email: { value: string };
 			password: { value: string };
@@ -26,6 +28,8 @@ export default function FormLogin() {
 		} else {
 			console.log(res);
 		}
+
+		setIsLoading(false);
 	}
 
 	return (
@@ -45,7 +49,7 @@ export default function FormLogin() {
 			/>
 			<br />
 			<button className="py-2 px-4 font-semibold bg-sky-400 text-white rounded-md mt-4">
-				login
+				{isLoading ? 'Loading...' : 'login'}
 			</button>
 		</form>
 	);
