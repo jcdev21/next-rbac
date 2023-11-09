@@ -30,11 +30,23 @@ export default function FormLogin() {
 
 	return (
 		<form method="POST" onSubmit={handleSubmit}>
-			<input type="email" name="email" placeholder="email" />
+			<input
+				type="email"
+				name="email"
+				placeholder="email"
+				className="border-2 p-2 rounded-md"
+			/>
 			<br />
-			<input type="password" name="password" placeholder="password" />
+			<input
+				type="password"
+				name="password"
+				placeholder="password"
+				className="border-2 p-2 rounded-md"
+			/>
 			<br />
-			<button className="p-2 bg-sky-400 rounded-md">login</button>
+			<button className="py-2 px-4 font-semibold bg-sky-400 text-white rounded-md mt-4">
+				login
+			</button>
 		</form>
 	);
 }
