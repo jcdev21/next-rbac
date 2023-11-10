@@ -48,7 +48,10 @@ export default function FormLogin() {
 				className="border-2 p-2 rounded-md"
 			/>
 			<br />
-			<button className="py-2 px-4 font-semibold bg-sky-400 text-white rounded-md mt-4">
+			<button
+				className="py-2 px-4 font-semibold bg-sky-400 text-white rounded-md mt-4"
+				disabled={isLoading}
+			>
 				{isLoading ? 'Loading...' : 'login'}
 			</button>
 		</form>
